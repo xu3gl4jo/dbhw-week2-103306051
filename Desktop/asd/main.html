@@ -1,0 +1,75 @@
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <link rel="stylesheet" href="main.css">
+  <title>台北市公園景點</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=bf073841-c734-49bf-a97f-3757a6013812">台北市公園景點推薦</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <br>
+      <br>
+      <h1>台北市公園景點推薦.</h1>
+      <h4>Taipei nice park~~</h2>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="rowplan">
+    </div>
+  </div>
+<footer>
+    	<p>&copy; 2016 NCCU MIS 103306051 李紹威</p>
+  	</footer>
+</body>
+<script type="text/javascript">
+  $(document).ready(function() {
+    getData(
+      function(err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        var spotList = data.result.results;
+        var HTMLspotList = spotList.map(function(spot) {
+          var HTMLString = "<div class='col-md-4'><h2>" + spot.Name + "</h2><img class='img-thumbnail' src='" + spot.Image + "'><p><ul class='list-group'>";
+          var items = "";
+          for (var key in spot) {
+            if (key != "_id" && key != "Image") {
+                items = items + "<li class='list-group-item'>" + key + ":" + spot[key] + "</li>";
+            }
+          }
+          var HTMLString = HTMLString + items + "</ul></p></div>";
+          return HTMLString;
+        });
+        HTMLspotList.forEach(function(html) {
+          $(html).appendTo(".rowplan");
+        });
+      }
+    });
+  });
+
+</script>
+</html>
